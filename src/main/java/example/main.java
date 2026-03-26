@@ -18,11 +18,25 @@ public class main {
 
             Repository<Employe> repository = new EmployeRepository();
 
+
+            System.out.println("/////LISTANDO///");
             repository.findAll().forEach(System.out::println);
 
+            System.out.println("/////////INSERTANDO UN EMPLEADO//////////");
+            Employe employe = new Employe();
+            employe.setFirst_name("Alan");
+            employe.setPa_surname("Rico");
+            employe.setMa_surname("Sampedro");
+            employe.setEmail("alans@gamil.com");
+            employe.setSalary((float) 510);
+            repository.save(employe);
+
+            System.out.println("----------NUEVO EMPLEADO INSERTADO---------------");
+            repository.findAll().forEach(System.out::println);
+        }
         }
 
     }
-}
+
 
 

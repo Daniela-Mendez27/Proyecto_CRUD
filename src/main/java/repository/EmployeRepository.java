@@ -43,7 +43,16 @@ public class EmployeRepository implements Repository<Employe> {
 
 
     @Override
-    public void save(Employe employe) {
+    public void save(Employe employe) throws SQLException {
+        String sql = "INSERT INTO employe (first_name, pa_surname, ma_surname, email, salary) VALUES (?,?,?,?,?)";
+        try(PreparedStatement myStamt = getConnection().prepareStatement(sql)){
+            myStamt.setString(1,employe.getFirst_name());
+            myStamt.setString(2,employe.getPa_surname());
+            myStamt.setString(3,employe.getMa_surname());
+            myStamt.setString(4,employe.getEmail());
+            myStamt.setFloat(5,employe.getSalary());
+            myStamt.executeUpdate();
+        }
     }
 
     @Override
