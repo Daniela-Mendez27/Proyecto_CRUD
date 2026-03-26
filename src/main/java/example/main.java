@@ -1,5 +1,8 @@
 package example;
 
+import model.Employe;
+import repository.EmployeRepository;
+import repository.Repository;
 import util.DatabaseConnection;
 
 import java.lang.invoke.StringConcatFactory;
@@ -10,19 +13,16 @@ public class main {
 
 
         /// AQUI SE CIERRAN LOS RECURSOS POR AutoClose
-        try (Connection myConn = DatabaseConnection.getInstance();
-               Statement myStamt = myConn.createStatement();
-               ResultSet myRes = myStamt.executeQuery("SELECT * FROM employees");)
-        {
-            while (myRes.next()) {
-                System.out.println(myRes.getString("first_name"));
-            }
+        try (Connection myConn = DatabaseConnection.getInstance()) {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Algo salio mal ):");
+
+            Repository<Employe> repository = new EmployeRepository();
+
+            repository.findAll().forEach(System.out::println);
+
         }
 
     }
 }
+
 

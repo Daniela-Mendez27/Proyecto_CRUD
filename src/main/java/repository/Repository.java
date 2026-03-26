@@ -1,13 +1,16 @@
 package repository;
 
+import java.sql.SQLException;
 import java.util.List;
 
-public interface Repository <T> {
-    List<T> findAll();
+// Usamos <T> para que sea genérico y sirva para cualquier modelo
+public interface Repository<T> {
 
-    T getById(Integer id);
-    void save (T t);
+    List<T> findAll() throws SQLException;
 
-    void delete(Integer id);
+    T getById(Integer id) throws SQLException;
 
+    void save(T t) throws SQLException;
+
+    void delete(Integer id) throws SQLException;
 }

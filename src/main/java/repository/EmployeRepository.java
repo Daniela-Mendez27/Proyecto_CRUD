@@ -3,18 +3,14 @@ package repository;
 import model.Employe;
 import util.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeRepository implements Repository<Employe>
-{
-private Connection getConnection() throws SQLException{
-    return DatabaseConnection.getInstance();
-}
+public class EmployeRepository implements Repository<Employe> {
+    private Connection getConnection() throws SQLException {
+        return DatabaseConnection.getInstance();
+    }
 
     @Override
     public List<Employe> findAll() throws SQLException {
@@ -22,25 +18,36 @@ private Connection getConnection() throws SQLException{
         try (Statement myStamt = getConnection().createStatement();
              ResultSet myRes = myStamt.executeQuery("SELECT * FROM employe")) {
             while (myRes.next()) {
-                // CORREGIDO: Ahora sí guardamos el empleado en la lista
-                employe.add(createEmploye(myRes));
+                Employe e = createEmploye(myRes);
+                employe.add(e);
             }
         }
         return employe;
     }
 
-    // CORREGIDO: Agregamos throws SQLException a estos tres
     @Override
     public Employe getById(Integer id) throws SQLException {
-        return null;
+        Employe employe = null;
+        try (PreparedStatement myStamt = getConnection().prepareStatement("SELECT * FROM employe WHERE  id = ?")) {
+
+
+            myStamt.setInt(1, id);
+            try (ResultSet myRes = myStamt.executeQuery()) {
+                if (myRes.next()) {
+                    employe = createEmploye(myRes);
+                }
+            }
+            return employe;
+        }
+    }
+
+
+    @Override
+    public void save(Employe employe) {
     }
 
     @Override
-    public void save(Employe employe) throws SQLException {
-    }
-
-    @Override
-    public void delete(Integer id) throws SQLException {
+    public void delete(Integer id) {
     }
 
     private Employe createEmploye(ResultSet myRes) throws SQLException {
@@ -48,13 +55,11 @@ private Connection getConnection() throws SQLException{
         e.setId(myRes.getInt("id"));
         e.setFirst_name(myRes.getString("first_name"));
         e.setPa_surname(myRes.getString("pa_surname"));
-
-        // CORREGIDO: Usar set en lugar de get
         e.setMa_surname(myRes.getString("ma_surname"));
         e.setEmail(myRes.getString("email"));
-
-        // Asegúrate que en la clase Employe se llame setSalaty (o setSalary)
         e.setSalary(myRes.getFloat("salary"));
 
         return e;
     }
+
+}
