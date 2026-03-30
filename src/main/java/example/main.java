@@ -14,25 +14,21 @@ public class main {
 
         /// AQUI SE CIERRAN LOS RECURSOS POR AutoClose
         try (Connection myConn = DatabaseConnection.getInstance()) {
-
-
             Repository<Employe> repository = new EmployeRepository();
 
 
-            System.out.println("/////LISTANDO///");
+            System.out.println("-------LISTANDO--------");
             repository.findAll().forEach(System.out::println);
+            System.out.println("--------------------------------------------");
 
-            System.out.println("/////////INSERTANDO UN EMPLEADO//////////");
-            Employe employe = new Employe();
-            employe.setFirst_name("Alan");
-            employe.setPa_surname("Rico");
-            employe.setMa_surname("Sampedro");
-            employe.setEmail("alans@gamil.com");
-            employe.setSalary((float) 510);
-            repository.save(employe);
+            System.out.println("---------- EMPLEADO ELIMINADO---------------");
+            repository.delete(6);
+            System.out.println("--------------------------------------------");
 
-            System.out.println("----------NUEVO EMPLEADO INSERTADO---------------");
+
+            System.out.println("-----MOSTRANDO ACTUALIZACIÓN---------");
             repository.findAll().forEach(System.out::println);
+            System.out.println("--------------------------------------------");
         }
         }
 
