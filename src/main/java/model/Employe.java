@@ -6,19 +6,22 @@ public class Employe {
     private String pa_surname;
     private String ma_surname;
     private String email;
-    private Float salary; // Corregido de salaty a salary para evitar confusiones
+    private Float salary;
+    private String curp;
 
     public Employe() {
     }
 
-    // El constructor debe recibir String, no System
-    public Employe(Integer id, String first_name, String pa_surname, String ma_surname, String email, Float salary) {
+
+
+    public Employe(Integer id, String first_name, String pa_surname, String ma_surname, String email, Float salary, String curp) {
         this.id = id;
         this.first_name = first_name;
         this.pa_surname = pa_surname;
         this.ma_surname = ma_surname;
         this.email = email;
         this.salary = salary;
+        this.curp = curp;
     }
 
     public Integer getId() {
@@ -45,7 +48,6 @@ public class Employe {
         this.pa_surname = pa_surname;
     }
 
-    // CORRECCIÓN CLAVE: El getter NO lleva parámetros
     public String getMa_surname() {
         return ma_surname;
     }
@@ -54,7 +56,6 @@ public class Employe {
         this.ma_surname = ma_surname;
     }
 
-    // CORRECCIÓN CLAVE: El getter NO lleva parámetros
     public String getEmail() {
         return email;
     }
@@ -71,6 +72,14 @@ public class Employe {
         this.salary = salary;
     }
 
+    public String getCurp() {
+        return curp;
+    }
+
+    public void setCurp(String curp) {
+        this.curp = curp;
+    }
+
     @Override
     public String toString() {
         return "Employe{" +
@@ -80,6 +89,7 @@ public class Employe {
                 ", ma_surname='" + ma_surname + '\'' +
                 ", email='" + email + '\'' +
                 ", salary=" + salary +
+                ", curp='" + curp + '\'' +
                 '}';
     }
 }

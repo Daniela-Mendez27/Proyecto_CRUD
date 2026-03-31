@@ -10,29 +10,37 @@ import java.sql.*;
 
 public class main {
     public static void main(String[] args) throws SQLException {
-
-
-        /// AQUI SE CIERRAN LOS RECURSOS POR AutoClose
         try (Connection myConn = DatabaseConnection.getInstance()) {
-            Repository<Employe> repository = new EmployeRepository();
+
+            if (myConn.getAutoCommit()) {
+                myConn.setAutoCommit((false));
+            }
+            try {
+                Repository<Employe> repository = new EmployeRepository(myConn);
+
+                System.out.println("----------INSERTAR UN NUEVO CLIENTE------");
+
+                Employe employe = new Employe();
+                employe.setFirst_name("America");
+                employe.setPa_surname("Lopez");
+                employe.setMa_surname("Villa");
+                employe.setEmail("ame2@example.com");
+                employe.setSalary(4500F);
+                employe.setCurp("AMEC234Y91JOLPSDET");
+                repository.save(employe);
+                myConn.commit();
 
 
-            System.out.println("-------LISTANDO--------");
-            repository.findAll().forEach(System.out::println);
-            System.out.println("--------------------------------------------");
-
-            System.out.println("---------- EMPLEADO ELIMINADO---------------");
-            repository.delete(6);
-            System.out.println("--------------------------------------------");
-
-
-            System.out.println("-----MOSTRANDO ACTUALIZACIÓN---------");
-            repository.findAll().forEach(System.out::println);
-            System.out.println("--------------------------------------------");
+            } catch (SQLException e) {
+                myConn.rollback();
+                throw new RuntimeException(e);
+            }
+            }
         }
-        }
-
     }
+
+
+
 
 
 
